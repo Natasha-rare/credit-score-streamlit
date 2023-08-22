@@ -46,7 +46,7 @@ def preprocess_data(df: pd.DataFrame, test=True):
     # else:
     #     scaler = joblib.load('data/scaler.gz')
     #     train_ds = pd.read_csv('data/train_data.csv', index_col='id')
-    X_df.drop(columns=['id'], inplace=True)
+    # X_df.drop(columns=['id'], inplace=True)
     # X_df[train_ds.columns] = scaler.transform(X_df)
 
     if test:
