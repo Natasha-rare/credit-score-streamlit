@@ -3,6 +3,7 @@ from sklearn.metrics import accuracy_score
 from pickle import dump, load
 import pandas as pd
 import joblib
+from sklearn.preprocessing import MinMaxScaler
 
 def split_data(df: pd.DataFrame):
     y = df['default_flg']
@@ -31,13 +32,22 @@ def preprocess_data(df: pd.DataFrame, test=True):
         X_df = df
 
     to_encode = ['education_cd']
-    scaler = joblib.load('data/scaler.gz')
+
     for col in to_encode:
         dummy = pd.get_dummies(X_df[col], prefix=col)
         X_df = pd.concat([X_df, dummy], axis=1)
         X_df.drop(col, axis=1, inplace=True)
+    # if test:
+    #     scaler = MinMaxScaler()
+    #     train_ds = X_df.copy()
+    #     train_ds.to_csv('data/train_data.csv')
+    #     scaler.fit(X_df)
+    #     joblib.dump(scaler, 'data/scaler.gz')
+    # else:
+    #     scaler = joblib.load('data/scaler.gz')
+    #     train_ds = pd.read_csv('data/train_data.csv', index_col='id')
     X_df.drop(columns=['id'], inplace=True)
-    X_df = pd.DataFrame(scaler.transform(X_df), columns=X_df.columns)
+    # X_df[train_ds.columns] = scaler.transform(X_df)
 
     if test:
         return X_df, y_df
