@@ -73,7 +73,8 @@ def load_model_and_predict(df, path="data/model_weights_2.mw"):
     with open(path, "rb") as file:
         model = load(file)
 
-    df.drop(columns=['id'], inplace=True)
+    if 'id' in df.columns.values:
+        df.drop(columns=['id'], inplace=True)
     prediction = model.predict(df)[0]
     # prediction = np.squeeze(prediction)
 
@@ -87,7 +88,7 @@ def load_model_and_predict(df, path="data/model_weights_2.mw"):
 
     encode_prediction = {
         0: "Сожалеем, вы получите дефолт",
-        1: "Вы выплатите кредит!"
+        1: "Вам одобрят кредит!"
     }
 
     prediction_data = {}
