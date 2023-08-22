@@ -73,6 +73,7 @@ def load_model_and_predict(df, path="data/model_weights_2.mw"):
     with open(path, "rb") as file:
         model = load(file)
 
+    df.drop(columns=['id'], inplace=True)
     prediction = model.predict(df)[0]
     # prediction = np.squeeze(prediction)
 
