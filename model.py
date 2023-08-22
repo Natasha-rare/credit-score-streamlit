@@ -66,7 +66,10 @@ def fit_and_save_model(X_df, y_df, path="data/model_weights_2.mw"):
     with open(path, "wb") as file:
         dump(model, file)
 
+    X_df.to_csv('data/df_data.csv')
+
     print(f"Model was saved to {path}")
+
 
 
 def load_model_and_predict(df, path="data/model_weights_2.mw"):
@@ -75,6 +78,10 @@ def load_model_and_predict(df, path="data/model_weights_2.mw"):
 
     if 'id' in df.columns.values:
         df.drop(columns=['id'], inplace=True)
+
+    data = pd.read_csv('data/df_data.csv', index_col=0)
+    # print(data.columns.values)
+    df = df.reindex(data.columns, axis=1)
     prediction = model.predict(df)[0]
     # prediction = np.squeeze(prediction)
 
